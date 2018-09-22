@@ -21,6 +21,7 @@ BINARY = cec_poc
 OBJS = CEC.o CEC_Device.o CEC_Electrical.o Common.o Serial.o Timer.o heap.o stub.o
 LDSCRIPT = ../tomu-efm32hg309.ld
 
-CXXFLAGS = -fno-exceptions -fno-unwind-tables -fno-rtti
+CXXFLAGS = -fno-exceptions -fno-unwind-tables -fno-rtti -nostdlib -fno-use-cxa-atexit
+LDFLAGS = -fno-exceptions -fno-unwind-tables -fno-rtti -nostdlib -fno-use-cxa-atexit
 
 include ../efm32hg.mk

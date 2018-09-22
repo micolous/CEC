@@ -1,14 +1,15 @@
 #include "Serial.h"
 
-SerialLine::SerialLine()
-{
-	_transmitBufferCount = 0;
-	_transmitBufferBit = 7;
-	_transmitBufferByte = 0;
-	_receiveBufferCount = 0;
-	_receiveBufferBit = 7;
-	_receiveBufferByte = 0;
-}
+SerialLine::SerialLine() :
+	_transmitBufferCount(0),
+	_transmitBufferBit(7),
+	_transmitBufferByte(0),
+	_receiveBufferCount(0),
+	_receiveBufferBit(7),
+	_receiveBufferByte(0)
+{}
+
+SerialLine::~SerialLine() {}
 
 void SerialLine::OnReceiveComplete(unsigned char* buffer, int count)
 {

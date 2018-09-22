@@ -16,6 +16,8 @@ public:
 	void RegisterReceiveHandler();
 
 protected:
+	~SerialLine();
+
 	unsigned char _transmitBuffer[SERIAL_BUFFER_SIZE];
 	unsigned char _receiveBuffer[SERIAL_BUFFER_SIZE];
 	int _transmitBufferCount;

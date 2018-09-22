@@ -107,3 +107,7 @@ extern "C" int _lseek(int file, int ptr, int dir)
     static_cast<void>(dir);
     return 0;
 }
+
+extern "C" void __cxa_pure_virtual() {
+   exit(1);
+}

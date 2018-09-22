@@ -25,6 +25,8 @@ CEC_LogicalDevice::CEC_LogicalDevice(int physicalAddress)
 	_tertiaryState = 0;
 }
 
+CEC_LogicalDevice::~CEC_LogicalDevice() {}
+
 void CEC_LogicalDevice::Initialize(CEC_DEVICE_TYPE type)
 {
 	CEC_Electrical::Initialize();
@@ -69,7 +71,10 @@ bool CEC_LogicalDevice::ProcessStateMachine(bool* success)
 					else
 					{
 						_logicalAddress = CLA_UNREGISTERED;
-						DbgPrint("Logical address assigned: %d\n", _logicalAddress);
+						usb_puts("Logical address assigned:");
+						usb_putsl(hex(_logicalAddress), 2);
+						usb_puts("\n");
+						//DbgPrint("Logical address assigned: %d\n", _logicalAddress);
 						_primaryState = CEC_READY;
 					}
 				}
@@ -78,7 +83,10 @@ bool CEC_LogicalDevice::ProcessStateMachine(bool* success)
 					// We hereby claim this as our logical address!
 					_logicalAddress = _validLogicalAddresses[_deviceType][_tertiaryState];
 					SetAddress(_logicalAddress);
-					DbgPrint("Logical address assigned: %d\n", _logicalAddress);
+					usb_puts("Logical address assigned:");
+					usb_putsl(hex(_logicalAddress), 2);
+					usb_puts("\n");
+					//DbgPrint("Logical address assigned: %d\n", _logicalAddress);
 					_primaryState = CEC_READY;
 				}
 			}
@@ -132,9 +140,13 @@ void CEC_LogicalDevice::OnTransmitComplete(bool success)
 	{
 		while (!ProcessStateMachine(&success))
 			;
-	}
-        else
-          DbgPrint("Transmit: %d\n", success);
+	} else {
+	   if (success) {
+   	   usb_puts("Transmit: success\n");
+   	} else {
+   	   usb_puts("Transmit: fail\n");
+   	}
+   }
 }
 
 void CEC_LogicalDevice::Run()

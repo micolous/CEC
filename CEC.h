@@ -25,6 +25,7 @@ public:
 	virtual bool TransmitFrame(int targetAddress, unsigned char* buffer, int count);
 
 protected:
+   ~CEC_LogicalDevice();
 	virtual bool IsISRTriggered() = 0;
 
 	bool ProcessStateMachine(bool* success);

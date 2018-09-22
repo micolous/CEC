@@ -1,16 +1,12 @@
 #include "CEC_Electrical.h"
 
-CEC_Electrical::CEC_Electrical(int address)
+CEC_Electrical::CEC_Electrical(int address) :
+  _address(address & 0xf)
 {
-	MonitorMode = false;
-	Promiscuous = false;
-
-	_address = address & 0x0f;
-	_amLastTransmittor = false;
-	_transmitPending = false;
-	_xmitretry = 0;
 	ResetState();
 }
+
+CEC_Electrical::~CEC_Electrical() {}
 
 void CEC_Electrical::Initialize()
 {
@@ -111,7 +107,8 @@ void CEC_Electrical::ReceivedBit(bool state)
 
 unsigned long CEC_Electrical::LineError()
 {
-        DbgPrint("%p: Line Error!\n", this);
+//        DbgPrint("%p: Line Error!\n", this);
+   usb_puts("Line error!\n");
 	if (_follower || _broadcast)
 	{
 		_secondaryState = CEC_RCV_LINEERROR;
@@ -566,7 +563,7 @@ unsigned long CEC_Electrical::Process()
 				if (RemainingTransmitBytes() == 0 &&  TransmitSize() == 1)
 				{
 					ResetState();
-					DbgPrint("Transmit failed, no acknowledge.\n");
+					usb_puts("Transmit failed, no acknowledge.\n");
 					OnTransmitComplete(false);
 				}
 				else
@@ -627,7 +624,7 @@ void CEC_Electrical::ResetTransmit(bool retransmit)
 		{
 			// No more
 			ResetState();
-			DbgPrint("Transmit failed, max retries reached.\n");
+			usb_puts("Transmit failed, max retries reached.\n");
 			OnTransmitComplete(false);
 		}
 		else

@@ -12,6 +12,7 @@ public:
   virtual void Run();
   
 protected:
+  ~CEC_Device();
   virtual bool LineState();
   virtual void SetLineState(bool);
   virtual void SignalIRQ();

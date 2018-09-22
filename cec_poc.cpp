@@ -17,7 +17,7 @@ TOBOOT_CONFIGURATION(0);
 #define HPD_LINE 10
 
 // ugly macro to do debug printing in the OnReceive method
-#define report(X) do { DbgPrint("report " #X "\n"); report ## X (); } while (0)
+#define report(X) do { usb_puts("report " #X "\n"); report ## X (); } while (0)
 
 #define phy1 ((_physicalAddress >> 8) & 0xFF)
 #define phy2 ((_physicalAddress >> 0) & 0xFF)
@@ -25,6 +25,8 @@ TOBOOT_CONFIGURATION(0);
 class MyCEC: public CEC_Device {
   public:
     MyCEC(int physAddr): CEC_Device(physAddr,IN_LINE,OUT_LINE) { }
+    ~MyCEC() {}
+    
     
     void reportPhysAddr()    { unsigned char frame[4] = { 0x84, phy1, phy2, 0x04 }; TransmitFrame(0x0F,frame,sizeof(frame)); } // report physical address
     void reportStreamState() { unsigned char frame[3] = { 0x82, phy1, phy2 };       TransmitFrame(0x0F,frame,sizeof(frame)); } // report stream state (playing)
@@ -56,7 +58,7 @@ class MyCEC: public CEC_Device {
       if (count == 0) return;
       switch (buffer[0]) {
         
-        case 0x36: DbgPrint("standby\n"); break;
+        case 0x36: usb_puts("standby\n"); break;
         
         case 0x83: report(PhysAddr); break;
         case 0x86: if (buffer[1] == phy1 && buffer[2] == phy2)
@@ -92,15 +94,13 @@ void hard_fault_handler(void)
 
 int main(void)
 {
-   int i;
-
    common_init();
    timer_init();
    device.Initialize(CEC_LogicalDevice::CDT_PLAYBACK_DEVICE);
    
 
    while(1) {
-   device.Run();
+      device.Run();
    }
 }
 

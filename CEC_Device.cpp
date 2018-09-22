@@ -13,6 +13,8 @@ CEC_Device::CEC_Device(int physicalAddress, int cec_gpio_addr, int cec_gpio_pin)
 {
 }
 
+CEC_Device::~CEC_Device() {}
+
 void CEC_Device::Initialize(CEC_DEVICE_TYPE type)
 {
    cmu_periph_clock_enable(CMU_GPIO);
@@ -33,7 +35,7 @@ void CEC_Device::OnReady()
 {
   // This is called after the logical address has been
   // allocated
-  DbgPrint("Device ready\n");
+  usb_puts("Device ready\n");
 }
 
 void CEC_Device::OnReceive(int source, int dest, unsigned char* buffer, int count)
@@ -41,10 +43,24 @@ void CEC_Device::OnReceive(int source, int dest, unsigned char* buffer, int coun
   // This is called when a frame is received.  To transmit
   // a frame call TransmitFrame.  To receive all frames, even
   // those not addressed to this device, set Promiscuous to true.
+  usb_puts("Packet received ");
+  //usb_putsl(hex(millis()), 2);
+  usb_putsl(hex(source), 2);
+  usb_puts(" -> ");
+  usb_putsl(hex(dest), 2);
+  usb_putsl(": ", 2);
+  for (int i=0; i < count; i++) {
+    usb_putsl(hex(buffer[i]), 2);
+    usb_putsl(" ", 1);
+  }
+  usb_putsl("\n", 1);
+  
+/*
   DbgPrint("Packet received at %ld: %02d -> %02d: %02X", millis(), source, dest, ((source&0x0f)<<4)|(dest&0x0f));
   for (int i = 0; i < count; i++)
     DbgPrint(":%02X", buffer[i]);
   DbgPrint("\n");
+*/
 }
 
 bool CEC_Device::LineState()

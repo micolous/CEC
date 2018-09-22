@@ -20,6 +20,7 @@ public:
 	int MonitorMode;
 
 protected:
+   ~CEC_Electrical();
 	virtual bool LineState() = 0;
 	virtual void SetLineState(bool) = 0;
 
@@ -102,21 +103,21 @@ private:
 
 	int _address;
 
-	bool _lastLineState;
-	unsigned long _lastStateChangeTime;
-	unsigned long _bitStartTime;
+	bool _lastLineState = false;
+	unsigned long _lastStateChangeTime = 0;
+	unsigned long _bitStartTime = 0;
 
-	int _xmitretry;
+	int _xmitretry = 0;
 
-	bool _eom;
-	bool _follower;
-	bool _broadcast;
-	bool _amLastTransmittor;
-	bool _transmitPending;
+	bool _eom = false;
+	bool _follower = false;
+	bool _broadcast = false;
+	bool _amLastTransmittor = false;
+	bool _transmitPending = false;
 
-	CEC_PRIMARY_STATE _primaryState;
-	CEC_SECONDARY_STATE _secondaryState;
-	CEC_TERTIARY_STATE _tertiaryState;
+	CEC_PRIMARY_STATE _primaryState = CEC_IDLE;
+	CEC_SECONDARY_STATE _secondaryState =  (CEC_SECONDARY_STATE)0;
+	CEC_TERTIARY_STATE _tertiaryState = (CEC_TERTIARY_STATE)0;
 };
 
 
