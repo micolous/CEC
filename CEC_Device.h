@@ -6,7 +6,7 @@
 class CEC_Device : public CEC_LogicalDevice
 {
 public:
-  CEC_Device(int physicalAddress, int in_line, int out_line);
+  CEC_Device(int physicalAddress, int cec_gpio_addr, int cec_gpio_pin);
   
   void Initialize(CEC_DEVICE_TYPE type);
   virtual void Run();
@@ -24,7 +24,8 @@ protected:
 private:
   bool _isrTriggered;
   bool _lastLineState2;
-  int  _in_line, _out_line;
+  int  _cec_gpio_addr, _cec_gpio_pin;
 };
 
 #endif // CEC_DEVICE_H__
+

@@ -2,6 +2,7 @@
 #define CECWIRE_H__
 
 #include "Serial.h"
+#include "Timer.h"
 
 #define CEC_MAX_RETRANSMIT 5
 

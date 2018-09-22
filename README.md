@@ -1,3 +1,10 @@
+# cec_poc
+
+Porting arduino CEC library to tomu (EFM32HG)
+
+This is incomplete.
+
+
 # CEC
 Arduino library for HDMI CEC communication
 

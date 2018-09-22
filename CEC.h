@@ -1,7 +1,9 @@
 #ifndef CEC_H__
 #define CEC_H__
 
+#include "Timer.h"
 #include "CEC_Electrical.h"
+#include <stddef.h>
 
 class CEC_LogicalDevice : public CEC_Electrical
 {
